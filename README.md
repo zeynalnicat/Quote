@@ -8,3 +8,6 @@
 ## Usage 
 One click on the card for other quotes ,
 Long click for copying the quote on clipboard
+
+## Tools
+Kotlin , View Model , MVVM , View Binding , Coroutines , Retrofit , Room , Api-ninjas end point , Dagger Hilt , LiveData , DiffUtil , Recycler View , Object Animator
