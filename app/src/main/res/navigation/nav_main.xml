@@ -9,5 +9,14 @@
         android:id="@+id/homeFragment"
         android:name="com.example.quote.ui.fragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_savedQuotesFragment"
+            app:destination="@id/savedQuotesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedQuotesFragment"
+        android:name="com.example.quote.ui.fragment.SavedQuotesFragment"
+        android:label="fragment_saved_quotes"
+        tools:layout="@layout/fragment_saved_quotes" />
 </navigation>

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.quote.R
 import com.example.quote.data.entity.QuotesRespondItem
 import com.example.quote.databinding.FragmentHomeBinding
@@ -31,7 +32,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        setAnimation()
+        setNavigation()
         viewModel.getQuotes()
         return binding.root
     }
@@ -80,11 +81,15 @@ class HomeFragment : Fragment() {
         }
 
         binding.actionSave.setOnClickListener {
-            ObjectAnimator.ofFloat(binding.btnSave,"scaleX",1.0f,0.5f).apply { duration=400 }.start()
-            ObjectAnimator.ofFloat(binding.txtAction,"rotationX",0f,90f).apply { duration=400 }.start()
+            ObjectAnimator.ofFloat(binding.btnSave, "scaleX", 1.0f, 0.5f).apply { duration = 400 }
+                .start()
+            ObjectAnimator.ofFloat(binding.txtAction, "rotationX", 0f, 90f).apply { duration = 400 }
+                .start()
             viewModel.insertRoom(quote.quote, quote.author, quote.category)
-            ObjectAnimator.ofFloat(binding.btnSave,"scaleX",0.5f,1.0f).apply { duration=400 }.start()
-            ObjectAnimator.ofFloat(binding.txtAction,"rotationX",90f,0f).apply { duration=400 }.start()
+            ObjectAnimator.ofFloat(binding.btnSave, "scaleX", 0.5f, 1.0f).apply { duration = 400 }
+                .start()
+            ObjectAnimator.ofFloat(binding.txtAction, "rotationX", 90f, 0f).apply { duration = 400 }
+                .start()
         }
 
         binding.quoteContainer.setOnLongClickListener {
@@ -107,12 +112,6 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun setAnimation() {
-        val t = ObjectAnimator.ofFloat(binding.quoteContainer, "translationX", -220f, 0.0f).apply {
-            duration = 500
-        }
-        t.start()
-    }
 
     private fun initialAnimation() {
         val a = ObjectAnimator.ofFloat(binding.quoteContainer, "alpha", 0.0f, 1.0f)
@@ -128,5 +127,10 @@ class HomeFragment : Fragment() {
         all.start()
     }
 
+    private fun setNavigation() {
+        binding.actionAll.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_savedQuotesFragment)
+        }
+    }
 
 }
