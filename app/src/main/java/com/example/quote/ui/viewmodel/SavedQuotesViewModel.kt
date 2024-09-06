@@ -31,4 +31,11 @@ class SavedQuotesViewModel @Inject constructor(val quotesRoomDao: QuotesRoomDao)
         }
     }
 
+    fun remove(quote: QuoteRoomEntity){
+        viewModelScope.launch {
+            quotesRoomDao.delete(quote)
+            getAll()
+        }
+    }
+
 }

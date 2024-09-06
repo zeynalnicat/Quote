@@ -1,6 +1,7 @@
-package com.example.quote.ui
+package com.example.quote.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -8,7 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.quote.data.entity.QuoteRoomEntity
 import com.example.quote.databinding.ItemSavedQuotesBinding
 
-class SavedQuotesAdapter : RecyclerView.Adapter<SavedQuotesAdapter.ViewHolder>() {
+class SavedQuotesAdapter(
+    private val cp: (String, View) -> Unit,
+    private val oP: (QuoteRoomEntity) -> Unit
+) :
+    RecyclerView.Adapter<SavedQuotesAdapter.ViewHolder>() {
 
     private val callBack = object : DiffUtil.ItemCallback<QuoteRoomEntity>() {
         override fun areItemsTheSame(oldItem: QuoteRoomEntity, newItem: QuoteRoomEntity): Boolean {
@@ -48,6 +53,13 @@ class SavedQuotesAdapter : RecyclerView.Adapter<SavedQuotesAdapter.ViewHolder>()
             binding.quote.text = item.content
             binding.txtCategory.text = item.category
             binding.author.text = item.author
+            itemView.setOnClickListener {
+                oP(item)
+            }
+            itemView.setOnLongClickListener {
+                cp(item.content, binding.quoteContainer)
+                true
+            }
         }
     }
 

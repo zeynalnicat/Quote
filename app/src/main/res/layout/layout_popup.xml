@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:padding="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/quoteContainer"
         android:layout_width="0dp"
-        android:backgroundTint="@color/brown"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:elevation="10dp"
-        app:cardCornerRadius="10dp"
-
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,9 +25,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/baskervville_regular"
                 android:text="&quot;"
-                android:textColor="@color/white"
+                android:textColor="@color/brown"
                 android:textSize="35sp"
                 android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,14 +39,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/caveat_medium"
-                android:textColor="@color/white"
+                android:textColor="@color/brown"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/quot1"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/quot1"
                 tools:text="asdadaaaaaaaaaaaaaaaaaaaaaaaaaaaaass" />
 
             <TextView
@@ -60,7 +56,7 @@
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/baskervville_regular"
                 android:text="&quot;"
-                android:textColor="@color/white"
+                android:textColor="@color/brown"
                 android:textSize="35sp"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -71,26 +67,56 @@
                 android:id="@+id/author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
                 android:fontFamily="@font/baskervville_regular"
                 android:text="Christine"
-                android:textColor="@color/white"
+                android:textColor="@color/brown"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/quot2" />
+
 
             <TextView
                 android:id="@+id/txtCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp"
+                android:fontFamily="@font/baskervville_regular"
                 android:text="TextView"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/author"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/author" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/baskervville_regular"
+                android:text="Category:"
+                app:layout_constraintEnd_toStartOf="@+id/txtCategory"
+                app:layout_constraintStart_toStartOf="@id/author"
+                app:layout_constraintTop_toTopOf="@+id/txtCategory" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRemove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="243dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_layout"
+                android:text="Remove"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtCategory" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

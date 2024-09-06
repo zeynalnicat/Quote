@@ -17,6 +17,7 @@ import com.example.quote.data.entity.QuotesRespondItem
 import com.example.quote.databinding.FragmentHomeBinding
 import com.example.quote.ui.viewmodel.HomeViewModel
 import com.example.quote.util.Resource
+import com.example.quote.util.Util
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -93,20 +94,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.quoteContainer.setOnLongClickListener {
-            ObjectAnimator.ofFloat(binding.quoteContainer, "scaleY", 1.0f, 0.5f).apply {
-                duration = 400
-                start()
-            }
-            val clipboard =
-                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("label", quote.quote)
-            clipboard.setPrimaryClip(clip)
-            Snackbar.make(requireView(), "Copied", Snackbar.LENGTH_SHORT).show()
-            ObjectAnimator.ofFloat(binding.quoteContainer, "scaleY", 0.5f, 1.0f).apply {
-                duration = 400
-                start()
-            }
-
+            val util = Util(requireContext(), requireView())
+            util.copyClipboard(it, quote.quote)
             true
         }
 
