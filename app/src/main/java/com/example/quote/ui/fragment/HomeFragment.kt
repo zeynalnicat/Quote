@@ -2,11 +2,15 @@ package com.example.quote.ui.fragment
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.quote.R
 import com.example.quote.data.entity.QuotesRespondItem
@@ -22,7 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-
     private val viewModel: HomeViewModel by viewModels()
 
 
@@ -42,6 +45,7 @@ class HomeFragment : Fragment() {
         viewModel.quotes.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
+                    initialAnimation()
                     adaptLayout(it.data)
                 }
 
@@ -63,16 +67,32 @@ class HomeFragment : Fragment() {
         binding.quote.text = quote.quote
         binding.author.text = quote.author
         binding.quoteContainer.setOnClickListener {
-            initialAnimation()
             viewModel.getQuotes()
         }
+
+        binding.quoteContainer.setOnLongClickListener {
+            ObjectAnimator.ofFloat(binding.quoteContainer, "scaleY", 1.0f, 0.5f).apply {
+                duration = 400
+                start()
+            }
+            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("label", quote.quote)
+            clipboard.setPrimaryClip(clip)
+            Snackbar.make(requireView(), "Copied", Snackbar.LENGTH_SHORT).show()
+            ObjectAnimator.ofFloat(binding.quoteContainer, "scaleY", 0.5f, 1.0f).apply {
+                duration = 400
+                start()
+            }
+
+            true
+        }
+
     }
 
     private fun setAnimation() {
         val t = ObjectAnimator.ofFloat(binding.quoteContainer, "translationX", -220f, 0.0f).apply {
             duration = 500
         }
-
         t.start()
     }
 
@@ -87,7 +107,6 @@ class HomeFragment : Fragment() {
             duration = 400
             playTogether(a, tx, ty,s,sy)
         }
-
         all.start()
     }
 
