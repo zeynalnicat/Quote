@@ -1,5 +1,6 @@
 package com.example.quote.ui.fragment
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -66,6 +67,8 @@ class SavedQuotesFragment : Fragment() {
 
     private fun setNavigation() {
         binding.btnBack.setOnClickListener {
+            ObjectAnimator.ofFloat(binding.btnBack, "scaleX", 1.0f, 0.5f).apply { duration = 400 }
+                .start()
             findNavController().popBackStack()
         }
     }

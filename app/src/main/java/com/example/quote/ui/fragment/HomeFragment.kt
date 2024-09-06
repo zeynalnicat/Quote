@@ -129,6 +129,8 @@ class HomeFragment : Fragment() {
 
     private fun setNavigation() {
         binding.actionAll.setOnClickListener {
+            ObjectAnimator.ofFloat(binding.btnSave, "scaleX", 1.0f, 0.5f).apply { duration = 400 }
+                .start()
             findNavController().navigate(R.id.action_homeFragment_to_savedQuotesFragment)
         }
     }
