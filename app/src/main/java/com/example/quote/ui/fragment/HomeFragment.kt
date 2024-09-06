@@ -6,20 +6,17 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.quote.R
 import com.example.quote.data.entity.QuotesRespondItem
 import com.example.quote.databinding.FragmentHomeBinding
-import com.example.quote.retrofit.QuoteDao
 import com.example.quote.ui.viewmodel.HomeViewModel
 import com.example.quote.util.Resource
 import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -47,6 +44,7 @@ class HomeFragment : Fragment() {
                 is Resource.Success -> {
                     initialAnimation()
                     adaptLayout(it.data)
+                    viewModel.checkRoom(it.data.quote)
                 }
 
                 is Resource.Error -> {
@@ -61,6 +59,17 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.checkDb.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.btnSave.setImageResource(R.drawable.baseline_cloud_done_24)
+                binding.txtAction.text = "Remove"
+            } else {
+                binding.btnSave.setImageResource(R.drawable.baseline_cloud_upload_24)
+                binding.txtAction.text = "Save"
+            }
+        }
+
     }
 
     private fun adaptLayout(quote: QuotesRespondItem) {
@@ -70,12 +79,21 @@ class HomeFragment : Fragment() {
             viewModel.getQuotes()
         }
 
+        binding.actionSave.setOnClickListener {
+            ObjectAnimator.ofFloat(binding.btnSave,"scaleX",1.0f,0.5f).apply { duration=400 }.start()
+            ObjectAnimator.ofFloat(binding.txtAction,"rotationX",0f,90f).apply { duration=400 }.start()
+            viewModel.insertRoom(quote.quote, quote.author, quote.category)
+            ObjectAnimator.ofFloat(binding.btnSave,"scaleX",0.5f,1.0f).apply { duration=400 }.start()
+            ObjectAnimator.ofFloat(binding.txtAction,"rotationX",90f,0f).apply { duration=400 }.start()
+        }
+
         binding.quoteContainer.setOnLongClickListener {
             ObjectAnimator.ofFloat(binding.quoteContainer, "scaleY", 1.0f, 0.5f).apply {
                 duration = 400
                 start()
             }
-            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard =
+                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("label", quote.quote)
             clipboard.setPrimaryClip(clip)
             Snackbar.make(requireView(), "Copied", Snackbar.LENGTH_SHORT).show()
@@ -97,15 +115,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun initialAnimation() {
-        val a = ObjectAnimator.ofFloat(binding.quoteContainer, "alpha",0.0f, 1.0f)
+        val a = ObjectAnimator.ofFloat(binding.quoteContainer, "alpha", 0.0f, 1.0f)
         val tx = ObjectAnimator.ofFloat(binding.quoteContainer, "translationX", 220f, 0.0f)
         val ty = ObjectAnimator.ofFloat(binding.quoteContainer, "translationY", 120.0f, 0.0f)
-        val s = ObjectAnimator.ofFloat(binding.quoteContainer,"scaleX",0.5f,1.0f)
-        val sy = ObjectAnimator.ofFloat(binding.quoteContainer,"scaleY",0.5f,1.0f)
+        val s = ObjectAnimator.ofFloat(binding.quoteContainer, "scaleX", 0.5f, 1.0f)
+        val sy = ObjectAnimator.ofFloat(binding.quoteContainer, "scaleY", 0.5f, 1.0f)
 
         val all = AnimatorSet().apply {
             duration = 400
-            playTogether(a, tx, ty,s,sy)
+            playTogether(a, tx, ty, s, sy)
         }
         all.start()
     }
